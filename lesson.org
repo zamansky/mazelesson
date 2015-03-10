@@ -161,7 +161,7 @@
 +-----------------+
 Stack
 #+end_src
--
+
 #+begin_src ditaa :file mstack.png
 +-----------------+
 | Maze step 4     |
