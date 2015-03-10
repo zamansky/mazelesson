@@ -137,50 +137,52 @@
 
 * Storing previous state:
 #+ATTR_REVEAL: :frag fade-in
-- 
-#+begin_src ditaa :file fib.png
+- Factorial
+  #+begin_src ditaa :file fib.png
+  +------------------+
+  | fact(0)=1        |
+  |                  |
+  +------------------+
+  | fact(1)=1*fib(0) |
+  |                  |
+  +------------------+
+  | fact(2)=2*fib(1) |
+  |                  |
+  +------------------+
+  | fact(3)=3*fib(2) |
+  |                  |
+  +------------------+
+  | fact(4)=4*fib(3) |
+  |                  |
+  +------------------+
+  | fact(5)=5*fib(4) |
+  |                  |
+  +------------------+
+      Stack
+  #+end_src
 
-+-----------------+
-| fib(0)=1        |
-|                 |
-+-----------------+
-| fib(1)=1*fib(0) |
-|                 |
-+-----------------+
-| fib(2)=2*fib(1) |
-|                 |
-+-----------------+
-| fib(3)=3*fib(2) |
-|                 |
-+-----------------+
-| fib(4)=4*fib(3) |
-|                 |
-+-----------------+
-| fib(5)=5*fib(4) |
-|                 |
-+-----------------+
-Stack
-#+end_src
-
-#+begin_src ditaa :file mstack.png
-+-----------------+
-| Maze step 4     |
-|                 |
-+-----------------+
-| Maze step 3     |
-|                 |
-+-----------------+
-| Maze step 2     |
-|                 |
-+-----------------+
-| Maze step 1     |
-|                 |
-+-----------------+
-| Maze start      |
-|                 |
-+-----------------+
-#+end_src
-
+#+ATTR_REVEAL: :frag fade-in
+- Maze
+  #+begin_src ditaa :file mstack.png
+  +-----------------+
+  | Maze step 4     |
+  |                 |
+  +-----------------+
+  | Maze step 3     |
+  |                 |
+  +-----------------+
+  | Maze step 2     |
+  |                 |
+  +-----------------+
+  | Maze step 1     |
+  |                 |
+  +-----------------+
+  | Maze start      |
+  |                 |
+  +-----------------+
+        Stack
+  #+end_src
+  
 * Recursion!!!!!!
 #+ATTR_REVEAL: :frag fade-in
 - Base case?
