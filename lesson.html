@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>lesson</title>
+<meta name="author" content="(Mike Zamansky)"/>
+
+<link rel="stylesheet" href="./css/reveal.css"/>
+<link rel="stylesheet" href="./css/theme/default.css" id="theme"/>
+<link rel="stylesheet" href="maze.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+Recursive Search
+</section>
+
+<section>
+<section id="sec-1" >
+
+<h2>Prerequisites</h2>
+<ul class="org-ul">
+<li>Simple recursion in Java
+</li>
+<li>How the recursion stack saves values
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-2" >
+
+<h2></h2>
+<table>
+<tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
+<tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
+</table>
+</section>
+</section>
+<section>
+<section id="sec-3" >
+
+<h2>You're lost in a maze</h2>
+<ul class="org-ul">
+<li class="fragment fade-in">How do you find your way out?
+</li>
+<li class="fragment fade-in">Right Hand rule:
+</li>
+<li class="fragment fade-in"><img src=right.jpg>  
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-4" >
+
+<h2>Fail!!!!!</h2>
+<img src="right-fail.png">
+</section>
+</section>
+<section>
+<section id="sec-5" >
+
+<h2>Let's go to the literature</h2>
+<ul class="org-ul">
+<li class="fragment fade-in">Theseus
+</li>
+<li class="fragment fade-in"><img src="theseus.jpg">
+</li>
+<li class="fragment fade-in">Hansel and Gretel
+</li>
+<li class="fragment fade-in"><img src="hansel.jpg">
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-6" >
+
+<h2>We can look at a "State" of the maze</h2>
+<img src="s1.png" alt="s1.png" />
+</section>
+</section>
+<section>
+<section id="sec-7" >
+
+<h2>Or a bunch of states</h2>
+<img src="s2.png" alt="s2.png" />
+</section>
+</section>
+<section>
+<section id="sec-8" >
+
+<h2>And we can transition from state to state</h2>
+<img src="s3.png" alt="s3.png" />
+</section>
+
+
+</section>
+<section>
+<section id="sec-9" >
+
+<h2>Storing previous state:</h2>
+<ul class="org-ul">
+<li class="fragment fade-in"></li>
+</ul>
+<img src="fib.png" alt="fib.png" />
+
+<ul class="org-ul">
+<li></li>
+</ul>
+<img src="mstack.png" alt="mstack.png" />
+</section>
+
+</section>
+<section>
+<section id="sec-10" >
+
+<h2>Reccursion!!!!!!</h2>
+<ul class="org-ul">
+<li class="fragment fade-in">Base case?
+<ul class="org-ul">
+<li class="fragment fade-in">found exit?
+</li>
+<li class="fragment fade-in">hit a wall?
+</li>
+</ul>
+</li>
+<li class="fragment fade-in">Move to next state?
+<ul class="org-ul">
+<li class="fragment fade-in">four possible recursive calls
+</li>
+<li class="fragment fade-in">x+1, x-1, y+1, y-1
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-11" >
+
+<h2>How can we represent our maze?</h2>
+<ul class="org-ul">
+<li class="fragment fade-in">2D array
+</li>
+<li class="fragment fade-in">Space = wall, # = path, z = us
+</li>
+<li class="fragment fade-in"><pre> 
+ #################                      
+ #   #        #  #                      
+ #   #        #  ##################     
+ #   #        #            #      #     
+ #   #        #            #      #     
+ #   #######  #   ##########      #     
+ ###       #  #            #      #     
+ ####################      #      #     
+ #####       #                    #     
+ #           #                    #     
+ #           #       #            #     
+ #           #       #            #     
+ #           #       #            #     
+             #       #            #     
+  ################   ###############    
+                #            #######    
+                #                       
+                ##########$             
+     </pre>y                                   
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-12" >
+
+<h2>Algorithm</h2>
+<ul class="org-ul">
+<li>Base cases
+<ul class="org-ul">
+<li>If we're at a wall, return
+</li>
+<li>If we're at the exit, set solved to true and return
+</li>
+<li>If we're solved, return
+</li>
+</ul>
+</li>
+<li>Recursive reduction
+<ul class="org-ul">
+<li>Put us (z) in the current x,y location of the 2D array  
+</li>
+<li>solve from the x+1 location
+</li>
+<li>solve from the x-1 location
+</li>
+<li>solve from the y+1 location
+</li>
+<li>solve from the y-1 location
+</li>
+<li>if not solved, remove us from the board
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-13" >
+
+<h2>Solver</h2>
+<div class="org-src-container">
+
+<pre  class="src src-java">public void solve(int x, int y){
+    if (board[x][y]==wall ||
+        board[x][y]==visited ||
+        solved){
+        return;
+    }
+
+    if (board[x][y]==exit){
+        System.out.println(this);
+        solved = true;
+    }
+
+    System.out.println(this);
+    board[x][y]=me;
+    solve(x+1,y);
+    solve(x-1,y);
+    solve(x,y+1);
+    solve(x,y-1);
+    if (!solved){
+        board[x][y]=visited;
+    }
+}
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-14" >
+
+<h2>Let's look at finished solver</h2>
+</section>
+</section>
+<section>
+<section id="sec-15" >
+
+<h2>Next steps</h2>
+<ul class="org-ul">
+<li>Other state space search and related problems
+</li>
+<li>Heuristic Search
+</li>
+<li>Pathway to more advanced search (A*)
+</li>
+<li>implicit data structures
+</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+
+<script src="./lib/js/head.min.js"></script>
+<script src="./js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+]
+});
+</script>
+</body>
+</html>

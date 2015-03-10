@@ -1,0 +1,266 @@
+#+REVEAL_ROOT: ./
+#+REVEAL_EXTRA_CSS: maze.css
+#+REVEAL_TITLE_SLIDE_TEMPLATE: Recursive Search
+#+OPTIONS: num:nil toc:nil
+
+* Prerequisites
+- Simple recursion in Java
+- How the recursion stack saves values
+* 
+#+begin_html
+<table>
+<tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
+<tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
+</table>
+#+end_html
+* You're lost in a maze
+#+ATTR_REVEAL: :frag fade-in
+- How do you find your way out?
+- Right Hand rule:
+- 
+  #+begin_html
+  <img src=right.jpg>  
+  #+end_html
+* Fail!!!!!
+#+begin_html
+<img src="right-fail.png">
+#+end_html
+* Let's go to the literature
+#+ATTR_REVEAL: :frag fade-in
+- Theseus
+-
+  #+begin_html
+  <img src="theseus.jpg">
+  #+end_html
+- Hansel and Gretel
+- 
+  #+begin_html
+  <img src="hansel.jpg">
+  #+end_html
+* We can look at a "State" of the maze
+#+begin_src ditaa :file s1.png :cmdline -E
+ 
+ 	 	+---+	
+ 	 	|   |
+ 	 	| X |
+ 	 	|   |	 	 	 
+ 	 	+---+---+
+ 	 	|   |	 	|
+	 	|   |	 	|	
+ 	 	|   |		|	
+ 	 	+---+---+	 
+ 	 	|   |	
+ 	 	|   |	
+		|		|
+		+---+
+#+end_src				 	
+
+#+RESULTS:
+[[file:s1.png]]
+* Or a bunch of states
+#+begin_src ditaa :file s2.png :cmdline -E
+
+ 																					 																							
++---+ 		                     +---+ 		   	
+|   |			 										 |   |			 	
+| X |			 										 | X |			 	
+|   |      										 |   |       	
++---+---+	 										 +---+---+	 	
+|   |   |	 										 |   |   |	 	
+|   |   |  										 | x |   |   	
+|   |   |  										 |   |   |   	
++---+---+  										 +---+---+   	
+|   | 		 										 |   | 		 	 	
+|   | 		 										 |   | 		 	 	
+|   |			 										 |   |			 	
++---+	 	 	 	 	 	 	 	 	 	 	 	 	 +---+ 	 	 	 	
+
+
+
++---+ 		                     +---+ 		   	
+|   |			 										 |   |			 	
+| X |			 										 | X |			 	
+|   |      										 |   |       	
++---+---+	 										 +---+---+	 	
+|   |   |	 										 |   |   |	 	
+| x |   |  										 | x | x |   	
+|   |   |  										 |   |   |   	
++---+---+  										 +---+---+   	
+|   | 		 										 |   | 		 	 	
+| x | 		 										 |   | 		 	 	
+|   |			 										 |   |			 	
++---+	 	 	 	 	 	 	 	 	 	 	 	 	 +---+ 	 	 	 	
+#+end_src				 	
+
+#+RESULTS:
+[[file:s2.png]]
+* And we can transition from state to state
+#+begin_src ditaa :file s3.png :cmdline -E
+
+                                                                                          
+  +---+                          +---+        
+  |   |                          |   |        
+  | X |                          | X |        
+  |   |                          |   |        
+  +---+---+                      +---+---+    
+  |   |   |                      |   |   |    
+  |   |   |--------------------->| x |   |
+  |   |   |                      |   |   |    
+  +---+---+                      +---+---+    
+  |   |                          |   |        
+  |   |                          |   |        
+  |   |                          |   |        
+  +---+                          +---+        
+                                   |
+                                   |
+    +------------------------------+
+    |                              |
+    v                              v  
+  +---+                          +---+
+  |   |                          |   |        
+  | X |                          | X |        
+  |   |                          |   |        
+  +---+---+                      +---+---+    
+  |   |   |                      |   |   |    
+  | x |   |                      | x | x |    
+  |   |   |                      |   |   |    
+  +---+---+                      +---+---+    
+  |   |                          |   |        
+  | x |                          |   |        
+  |   |                          |   |        
+  +---+                          +---+        
+#+end_src				 	
+
+#+RESULTS:
+[[file:s3.png]]
+
+
+* Storing previous state:
+#+ATTR_REVEAL: :frag fade-in
+- 
+#+begin_src ditaa :file fib.png
+
++-----------------+
+| fib(0)=1        |
+|                 |
++-----------------+
+| fib(1)=1*fib(0) |
+|                 |
++-----------------+
+| fib(2)=2*fib(1) |
+|                 |
++-----------------+
+| fib(3)=3*fib(2) |
+|                 |
++-----------------+
+| fib(4)=4*fib(3) |
+|                 |
++-----------------+
+| fib(5)=5*fib(4) |
+|                 |
++-----------------+
+Stack
+#+end_src
+-
+#+begin_src ditaa :file mstack.png
++-----------------+
+| Maze step 4     |
+|                 |
++-----------------+
+| Maze step 3     |
+|                 |
++-----------------+
+| Maze step 2     |
+|                 |
++-----------------+
+| Maze step 1     |
+|                 |
++-----------------+
+| Maze start      |
+|                 |
++-----------------+
+#+end_src
+
+* Recursion!!!!!!
+#+ATTR_REVEAL: :frag fade-in
+- Base case?
+  #+ATTR_REVEAL: :frag fade-in
+  - found exit?
+  - hit a wall?
+- Move to next state?
+  #+ATTR_REVEAL: :frag fade-in
+  - four possible recursive calls
+  - x+1, x-1, y+1, y-1
+* How can we represent our maze?
+#+ATTR_REVEAL: :frag fade-in
+- 2D array
+- Space = wall, # = path, z = us
+-
+ #+begin_html
+<pre> 
+ #################                      
+ #   #        #  #                      
+ #   #        #  ##################     
+ #   #        #            #      #     
+ #   #        #            #      #     
+ #   #######  #   ##########      #     
+ ###       #  #            #      #     
+ ####################      #      #     
+ #####       #                    #     
+ #           #                    #     
+ #           #       #            #     
+ #           #       #            #     
+ #           #       #            #     
+             #       #            #     
+  ################   ###############    
+                #            #######    
+                #                       
+                ##########$             
+     </pre>y                                   
+#+end_html                                       
+
+* Algorithm
+- Base cases
+  - If we're at a wall, return
+  - If we're at the exit, set solved to true and return
+  - If we're solved, return
+- Recursive reduction
+  - Put us (z) in the current x,y location of the 2D array  
+  - solve from the x+1 location
+  - solve from the x-1 location
+  - solve from the y+1 location
+  - solve from the y-1 location
+  - if not solved, remove us from the board
+* Solver
+#+begin_src java
+		public void solve(int x, int y){
+				if (board[x][y]==wall ||
+						board[x][y]==visited ||
+						solved){
+						return;
+				}
+
+				if (board[x][y]==exit){
+						System.out.println(this);
+						solved = true;
+				}
+
+				System.out.println(this);
+				board[x][y]=me;
+				solve(x+1,y);
+				solve(x-1,y);
+				solve(x,y+1);
+				solve(x,y-1);
+				if (!solved){
+						board[x][y]=visited;
+				}
+		}
+
+#+end_src
+* Let's look at finished solver
+* Next steps
+- Other state space search and related problems
+- Heuristic Search
+- Pathway to more advanced search (A*)
+- implicit data structures
+  
