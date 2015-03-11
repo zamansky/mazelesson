@@ -100,6 +100,7 @@ Recursive Search
 <h2>Or a bunch of states</h2>
 <img src="s2.png" alt="s2.png" />
 </section>
+
 </section>
 <section>
 <section id="sec-8" >
@@ -108,10 +109,35 @@ Recursive Search
 <img src="s3.png" alt="s3.png" />
 </section>
 
-
 </section>
 <section>
 <section id="sec-9" >
+
+<h2>What do we need?</h2>
+<ul class="org-ul">
+<li class="fragment fade-in">Take steps one at a time to get closer to our solution
+</li>
+<li class="fragment fade-in">Keep track of where we've been so we can back up
+</li>
+<li class="fragment fade-in">Recursion!!!!!!!!!!
+</li>
+<li class="fragment fade-in">Recall factorial:
+<div class="org-src-container">
+
+<pre  class="src src-java">public int fact(int n){
+  if (n&lt;=1)
+    return 1;
+  else
+    return n * fact(n-1);
+}
+</pre>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-10" >
 
 <h2>Storing previous state:</h2>
 <ul class="org-ul">
@@ -130,7 +156,7 @@ Recursive Search
 
 </section>
 <section>
-<section id="sec-10" >
+<section id="sec-11" >
 
 <h2>Recursion!!!!!!</h2>
 <ul class="org-ul">
@@ -154,7 +180,7 @@ Recursive Search
 </section>
 </section>
 <section>
-<section id="sec-11" >
+<section id="sec-12" >
 
 <h2>How can we represent our maze?</h2>
 <ul class="org-ul">
@@ -188,7 +214,7 @@ Recursive Search
 
 </section>
 <section>
-<section id="sec-12" >
+<section id="sec-13" >
 
 <h2>Algorithm</h2>
 <ul class="org-ul">
@@ -222,7 +248,7 @@ Recursive Search
 </section>
 </section>
 <section>
-<section id="sec-13" >
+<section id="sec-14" >
 
 <h2>Solver</h2>
 <div class="org-src-container">
@@ -254,13 +280,13 @@ Recursive Search
 </section>
 </section>
 <section>
-<section id="sec-14" >
+<section id="sec-15" >
 
 <h2>Let's look at finished solver</h2>
 </section>
 </section>
 <section>
-<section id="sec-15" >
+<section id="sec-16" >
 
 <h2>Next steps</h2>
 <ul class="org-ul">
