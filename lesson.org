@@ -57,6 +57,7 @@
 
 #+RESULTS:
 [[file:s1.png]]
+
 * Or a bunch of states
 #+begin_src ditaa :file s2.png :cmdline -E
 
